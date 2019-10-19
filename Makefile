@@ -13,11 +13,22 @@ FLAGS = -Wall
 #
 # You should comment the line below ('LIBS= -lcrypt')for QNX RTP
 # 6.1.0, OpenBSD 2.8 and above, WIN32 (+MinGW)
-LIBS = -lcrypt
-LIBM = -lm
-# Use lines below for cygwin
-# LIBS = 
-# LIBM =
+ifeq ($(OS),Windows_NT)
+	# Use lines below for cygwin
+	LIBS =
+	LIBM =
+else
+	# Unix like OS
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		# Use lines below for MacOS
+		LIBS =
+		LIBM = 
+	else
+		LIBS = -lcrypt
+		LIBM = -lm
+	endif
+endif
 
 ##################################################################
 # Support for crypted passwords
